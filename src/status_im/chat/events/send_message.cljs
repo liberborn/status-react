@@ -1,6 +1,5 @@
 (ns status-im.chat.events.send-message
-  (:require [re-frame.core :as re-frame]
-            [status-im.chat.utils :as chat-utils]
+  (:require [re-frame.core :as re-frame] 
             [status-im.chat.models.message :as message-model]
             [status-im.constants :as constants]
             [status-im.data-store.chats :as chats-store]
@@ -33,13 +32,6 @@
   :send-message
   (fn [value]
    (protocol/send-message! value)))
-
-(re-frame/reg-fx
-  :update-message-overhead!
-  (fn [[chat-id network-status]]
-    (if (= network-status :offline)
-      (chats-store/inc-message-overhead chat-id)
-      (chats-store/reset-message-overhead chat-id))))
 
 ;;;; Handlers
 
