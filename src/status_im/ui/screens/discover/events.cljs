@@ -1,7 +1,6 @@
 (ns status-im.ui.screens.discover.events
   (:require [re-frame.core :as re-frame]
             [status-im.protocol.core :as protocol]
-            [status-im.ui.screens.discover.navigation]
             [status-im.utils.handlers :as handlers]
             [clojure.string :as string]))
 
@@ -113,13 +112,6 @@
                              :message    message
                              :identities (handlers/identities contacts)}
          :dispatch          [:status-received message]}))))
-
-(handlers/register-handler-fx
-  :init-discoveries
-  [(re-frame/inject-cofx :data-store/discoveries)]
-  (fn [{:keys [data-store/discoveries db]} _]
-    {:db       (assoc db :discoveries discoveries)
-     :dispatch [:request-discoveries]}))
 
 (handlers/register-handler-fx
   :request-discoveries

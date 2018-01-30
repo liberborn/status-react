@@ -174,7 +174,7 @@
     :edit-chats :wallet :wallet-exchange :wallet-request :sign-in
     :datetime-yesterday :create-new-account :sign-in-to-status :dapp-profile
     :sign-later-text :datetime-ago :no-hashtags-discovered-body :contacts
-    :search-chat :got-it :delete-group-confirmation :public-chats
+    :got-it :delete-group-confirmation :public-chats
     :not-applicable :move-to-internal-failure-message :active-online
     :password :status-seen-by-everyone :edit-group :not-specified
     :delete-group :send-request :paste-json :browsing-title
@@ -189,11 +189,11 @@
     :connected :rpc-url :settings :remove-from-group :specify-rpc-url
     :contacts-syncronized :transactions-sign-all :gas-limit :wallet-browse-photos
     :add-new-contact :no-statuses-discovered-body :add-json-file :delete
-    :search-contacts :chats :transaction-sent :transaction :public-group-status
+    :chats :transaction-sent :transaction :public-group-status
     :leave-chat :transactions-delete :mainnet-text :image-source-make-photo
     :chat :start-conversation :topic-format :add-new-network :save
     :enter-valid-public-key :faucet-error :phone-significant :all
-    :confirmations-helper-text :search-for :sharing-copy-to-clipboard
+    :confirmations-helper-text :sharing-copy-to-clipboard
     :your-wallets :phone-international :sync-in-progress :enter-password
     :enter-address :switch-users :send-transaction :confirmations
     :recover-access :incorrect-code :image-source-gallery :sync-synced
@@ -203,7 +203,7 @@
     :unsigned-transaction-expired :status-sending :gas-used
     :transactions-filter-type :next :recent :confirmation-code
     :open-on-etherscan :share :status :from
-    :wrong-password :search-chats :transactions-sign-later :in-contacts
+    :wrong-password :transactions-sign-later :in-contacts
     :transactions-sign :sharing-share :type-a-message :type-a-command
     :usd-currency :existing-networks :node-unavailable :url :shake-your-phone
     :add-network :unknown-status-go-error :contacts-group-new-chat :and-you
@@ -221,7 +221,7 @@
     :suggestions-commands :nonce :new-network :contact-already-added :datetime-minute
     :browsing-open-in-web-browser :delete-group-prompt :wallet-total-value
     :wallet-insufficient-funds :edit-profile :active-unknown :testfairy-message
-    :search-tags :transaction-failed :public-key :error-processing-json
+    :transaction-failed :public-key :error-processing-json
     :status-seen :transactions-filter-tokens :status-delivered :profile
     :wallet-choose-recipient :no-statuses-discovered :none :removed :empty-topic
     :no :transactions-filter-select-all :transactions-filter-title :message

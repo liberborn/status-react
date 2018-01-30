@@ -443,9 +443,7 @@
                    (assoc :group/group-type group-type
                           :group/selected-contacts #{}
                           :new-chat-name "")
-                   (assoc-in [:toolbar-search :show] nil)
-                   (assoc-in [:toolbar-search :text] "")
-                   (navigation/navigate-to-clean :contact-toggle-list))}))
+                   (navigation/navigate-to :contact-toggle-list))}))
 
 (register-handler-fx
   :open-chat-with-contact
