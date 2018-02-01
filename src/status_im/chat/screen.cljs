@@ -16,24 +16,23 @@
             [status-im.ui.components.list.views :as list]
             [status-im.ui.components.icons.vector-icons :as vector-icons]
             [status-im.ui.components.status-bar.view :as status-bar]
-            [status-im.ui.components.chat-icon.screen :as chat-icon-screen]
             [status-im.ui.components.animation :as anim]
             [status-im.ui.components.animation :as anim]
             [status-im.ui.components.sync-state.offline :as offline]
             [status-im.ui.components.toolbar.view :as toolbar]))
 
-(defview chat-icon []
-  (letsubs [{:keys [chat-id group-chat name color]} [:get-current-chat]]
-    [chat-icon-screen/chat-icon-view-action chat-id group-chat name color true]))
+(def chat-actions
+  [{:text  "View profile"
+    :value #(js/alert "View profile")}
+   {:text  "Delete chat"
+    :value #(js/alert "View profile")}])
 
 (defn- toolbar-action [show-actions?]
   [react/touchable-highlight
    {:on-press            #(re-frame/dispatch [:set-chat-ui-props {:show-actions? (not show-actions?)}])
     :accessibility-label :chat-menu}
    [react/view style/action
-    (if show-actions?
-      [vector-icons/icon :icons/dropdown-up]
-      [chat-icon])]])
+    [vector-icons/icon :icons/dots-horizontal]]])
 
 (defview add-contact-bar []
   (letsubs [chat-id          [:get-current-chat-id]
@@ -52,7 +51,7 @@
     [react/view
      [status-bar/status-bar]
      [toolbar/toolbar {:show-sync-bar? true}
-      (when-not (or show-actions? creating?)
+      (when-not (or creating?)
         (if (empty? accounts)
           [toolbar/nav-clear-text (i18n/label :t/recover)
            #(re-frame/dispatch [:navigate-to-modal :recover-modal])]

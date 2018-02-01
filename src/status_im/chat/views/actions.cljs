@@ -8,13 +8,14 @@
             [status-im.utils.platform :as platform])
   (:require-macros [status-im.utils.views :refer [defview letsubs]]))
 
+
 (defview menu-item-icon-profile []
-  [chat-id [:chat :chat-id]
-   group-chat [:chat :group-chat]
-   name [:chat :name]
-   color [:chat :color]]
-  ;; TODO stub data ('online' property)
-  [chat-icon.screen/chat-icon-view-menu-item chat-id group-chat name color true])
+  (letsubs [chat-id    [:chat :chat-id]
+            group-chat [:chat :group-chat]
+            name       [:chat :name]
+            color      [:chat :color]]
+    ;; TODO stub data ('online' property)
+    [chat-icon.screen/chat-icon-view-menu-item chat-id group-chat name color true]))
 
 (defn- members-text [members]
   (str (string/join ", " (map :name members))
