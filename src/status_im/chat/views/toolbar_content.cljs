@@ -36,27 +36,35 @@
 
     (str (i18n/label :t/sync-in-progress) " " percentage "% " currentBlock)))
 
-(defview last-activity [{:keys [online-text sync-state]}]
+(defn last-activity-syncing [sync-state]
   (letsubs [state [:get :sync-data]]
     [react/text {:style styles.screen/last-activity-text}
      (case sync-state
        :in-progress (in-progress-text state)
        :synced (i18n/label :t/sync-synced)
-       online-text)]))
+       nil)]))
 
-(defn group-last-activity [{:keys [contacts sync-state public?]}]
+(defn individual-chat-last-activity [{:keys [online-text]}]
+  [react/text {:style styles.screen/last-activity-text}
+   online-text])
+
+(defn private-group-last-activity [{:keys [contacts]}]
+  [react/view {:flex-direction :row}
+   [react/text {:style styles.screen/members}
+    (let [cnt (inc (count contacts))]
+      (i18n/label-pluralize cnt :t/members-active))]])
+
+(defn public-channel-last-activity []
+  [react/view {:flex-direction :row}
+   [react/text (i18n/label :t/public-group-status)]])
+
+(defn last-activity [{:keys [sync-state public? group-chat] :as params}]
   (if (or (= sync-state :in-progress)
           (= sync-state :synced))
-    [last-activity {:sync-state sync-state}]
-    (if public?
-      [react/view {:flex-direction :row}
-       [react/text (i18n/label :t/public-group-status)]]
-      [react/view {:flex-direction :row}
-       [react/text {:style styles.screen/members}
-        (if public?
-          (i18n/label :t/public-group-status)
-          (let [cnt (inc (count contacts))]
-            (i18n/label-pluralize cnt :t/members-active)))]])))
+    [last-activity-syncing {:sync-state sync-state}]
+    (cond public?    (public-channel-last-activity)
+          group-chat (private-group-last-activity params)
+          :else      (individual-chat-last-activity params))))
 
 (defview toolbar-content-view []
   (letsubs [group-chat    [:chat :group-chat]
@@ -83,9 +91,8 @@
          (if public?
            (str "#" chat-name)
            chat-name)])
-      (if group-chat
-        [group-last-activity {:contacts   contacts
-                              :public?    public?
-                              :sync-state sync-state}]
-        [last-activity {:online-text (online-text contact chat-id)
-                        :sync-state  sync-state}])]]))
+      [last-activity {:online-text (online-text contact chat-id)
+                      :sync-state  sync-state
+                      :contacts    contacts
+                      :public?     public?
+                      :group-chat  group-chat}]]]))

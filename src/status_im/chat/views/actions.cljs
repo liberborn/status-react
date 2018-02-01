@@ -1,6 +1,5 @@
 (ns status-im.chat.views.actions
-  (:require [clojure.string :as string]
-            [re-frame.core :as re-frame]
+  (:require [re-frame.core :as re-frame]
             [status-im.chat.styles.screen :as styles]
             [status-im.ui.components.chat-icon.screen :as chat-icon.screen]
             [status-im.ui.components.react :as react]
@@ -17,19 +16,6 @@
     ;; TODO stub data ('online' property)
     [chat-icon.screen/chat-icon-view-menu-item chat-id group-chat name color true]))
 
-(defn- members-text [members]
-  (str (string/join ", " (map :name members))
-       " "
-       (i18n/label :t/and-you)))
-
-(defn item-members [members]
-  {:title      (i18n/label :t/members-title)
-   :subtitle   (members-text members)
-   :icon       :menu_group
-   :icon-opts {:width  25
-               :height 19}
-   ;; TODO not implemented: action Members
-   :handler    nil})
 
 (defn item-user [chat-id]
   {:title       (i18n/label :t/profile)
@@ -48,25 +34,6 @@
    :handler    #(do (re-frame/dispatch [:remove-chat chat-id])
                     (re-frame/dispatch [:navigation-replace :home]))})
 
-(def item-search
-  {:title      (i18n/label :t/search-chat)
-   :subtitle   (i18n/label :t/not-implemented)
-   :icon       :search_gray_copy
-   :icon-style {:width  17
-                :height 17}
-   ;; TODO not implemented: action Search chat
-   :handler    nil})
-
-(def item-notifications
-  {:title      (i18n/label :t/notifications-title)
-   :subtitle   (i18n/label :t/not-implemented)
-   ;;:subtitle   "Chat muted"
-   :icon       :muted
-   :icon-style {:width  18
-                :height 21}
-   ;; TODO not implemented: action Notifications
-   :handler    nil})
-
 (def item-settings
   {:title               (i18n/label :t/settings)
    :icon                :settings
@@ -75,17 +42,12 @@
    :accessibility-label :settings
    :handler             #(re-frame/dispatch [:show-group-chat-settings])})
 
-(defn group-chat-items [members public?]
-  (into (if public? [] [(item-members members)])
-        [item-search
-         item-notifications
-         item-settings]))
+(defn group-chat-items []
+  [item-settings])
 
 (defn user-chat-items [chat-id]
   [(item-user chat-id)
-   (item-delete chat-id)
-   item-search
-   item-notifications])
+   (item-delete chat-id)])
 
 (defn overlay [{:keys [on-click-outside]} items]
   [react/view styles/actions-overlay
@@ -126,10 +88,9 @@
   (letsubs [group-chat        [:chat :group-chat]
             chat-id           [:chat :chat-id]
             public?           [:chat :public?]
-            members           [:current-chat-contacts]
             status-bar-height (get platform/platform-specific :status-bar-default-height)]
     (when-let [actions (if group-chat
-                         (group-chat-items members public?)
+                         (group-chat-items)
                          (user-chat-items chat-id))]
       [react/view (merge
                    (styles/actions-wrapper status-bar-height)
