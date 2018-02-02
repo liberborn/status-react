@@ -57,8 +57,7 @@
 (reg-fx
   ::send-contact-request-fx
   (fn [{:keys [web3 current-public-key name whisper-identity
-               photo-path account status fcm-token
-               updates-public-key updates-private-key] :as params}]
+               photo-path account status fcm-token updates-key-pair-id] :as params}]
     (protocol/contact-request!
      {:web3    web3
       :message {:from       current-public-key
@@ -69,8 +68,7 @@
                                        :address       (:address account)
                                        :status        status
                                        :fcm-token     fcm-token}
-                             :keypair {:public  updates-public-key
-                                       :private updates-private-key}
+                             :keypair updates-key-pair-id
                              :timestamp (web3.utils/timestamp)}}})))
 
 (reg-fx
