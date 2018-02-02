@@ -52,14 +52,11 @@
       (i18n/label :t/scan-qr-code)]
      [react/view {:style          styles/qr-container
                   :pointer-events :none}
-      (when (and
-              (= view :choose-recipient)
-              platform/android?)
-        [camera/camera {:style         styles/preview
-                        :aspect        :fill
-                        :captureAudio  false
-                        :torchMode     (camera/set-torch camera-flashlight)
-                        :onBarCodeRead #(re-frame/dispatch [:wallet/fill-request-from-url (camera/get-qr-code-data %) nil])}])
+      [camera/camera {:style         styles/preview
+                      :aspect        :fill
+                      :captureAudio  false
+                      :torchMode     (camera/set-torch camera-flashlight)
+                      :onBarCodeRead #(re-frame/dispatch [:wallet/fill-request-from-url (camera/get-qr-code-data %) nil])}]
       [viewfinder dimensions (size dimensions)]]
      [bottom-buttons/bottom-button
       [button/button {:disabled? false :on-press #(re-frame/dispatch [:navigate-back])}
